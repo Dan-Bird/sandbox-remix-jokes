@@ -1,4 +1,14 @@
+import type { LinksFunction } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'stylesheet',
+      href: '~/styles/jokes.css',
+    },
+  ];
+};
 
 export default function jokesRoute() {
   return (
