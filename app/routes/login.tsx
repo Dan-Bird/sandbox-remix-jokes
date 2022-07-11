@@ -2,7 +2,7 @@ import type { ActionFunction, LinksFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Link, useActionData, useSearchParams } from '@remix-run/react';
 import { db } from '~/utils/db.server';
-import { login } from '~/utils/session.server';
+import { createUserSession, login } from '~/utils/session.server';
 import stylesUrl from '../styles/login.css';
 
 export const links: LinksFunction = () => {
@@ -80,11 +80,7 @@ export const action: ActionFunction = async ({ request }) => {
           fields,
         });
       }
-      // if there is a user, create their session and redirect to /jokes
-      return badRequest({
-        fields,
-        formError: 'Not implemented',
-      });
+      return createUserSession(user.id, redirectTo);
     }
     case 'register': {
       const userExists = await db.user.findFirst({
